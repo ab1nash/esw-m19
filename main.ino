@@ -8,12 +8,11 @@
 #include "ThingSpeak.h"
 
 unsigned long myChannelNumber = 921115;
-const char * myWriteAPIKey = "BT4C41GR6A8IF9P7";
+const char * myWriteAPIKey = "---";
 
 
-char* ssid = "esw-m19@iiith";
-char* password = "e5W-eMai@3!20hOct"; 
-String cse_ip = "onem2m.iiit.ac.in";  
+char* ssid = "wifiSSID";
+char* password = "wifipassword"; 
 WiFiClient  client;
 
 int relay1 = 16;
