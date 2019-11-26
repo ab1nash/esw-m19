@@ -43,8 +43,9 @@ float readout(){
     val = val * 5;
     reading = (float)val / 4096;
     ret+=reading;
-  if(i!=1)
-  ret/=2;
+    
+    if(i!=1)
+        ret/=2;
   }  
   return reading;
 }
@@ -82,7 +83,6 @@ void setup() {
   pinMode(34, INPUT); //analog in S02
  }
 
-
     bool up = 0, dwn = 0;
     int adcv1, adcv2;
     short count=0;
@@ -92,24 +92,30 @@ void setup() {
     short iot_send = 0;
     int loop_stop = 0;
 
+void show(){
+      Serial.print("UP:");
+      Serial.println(op1);
+      Serial.print("DOWN:");
+      Serial.println(op2);
+      Serial.println("count");
+      Serial.println(count);
+}
+
 void loop() {
   reset_count++;
   op1 = readin();
   op2 = readout(); 
   loop_stop=0; 
 
-  if(op1>1.90 && op2>0.60)
+  if(op1>2.00 && op2>2.00)
   goto label;
 
   //Sensor 02 work down
-  if (op2 > 1.10 && op1 < 3.00) {
+  if (op2 > 1.30 && op1 < 3.00) {
       loop_stop=0;
       Serial.println("OUT loop");
-      Serial.print("UP");
-      Serial.println(op1);
-      Serial.print("DOWN:");
-      Serial.println(op2);
-  while(op1 < 1.90){
+      show();
+  while(op1 < 1.95){
     delay(4);
     loop_stop++;
     
@@ -126,13 +132,10 @@ void loop() {
   op1 = readin();
   op2 = readout();
   //Sensor 01 work up
-  if (op1 > 1.95 && op2 < 0.65) {
+  if (op1 > 1.95 && op2 < 0.90) {
           loop_stop=0;
           Serial.println("IN loop");
-          Serial.print("UP");
-          Serial.println(op1);
-          Serial.print("DOWN:");
-          Serial.println(op2);
+          show();
     while(op2 < 0.90){
       delay(4);
     loop_stop++;
@@ -148,16 +151,9 @@ void loop() {
   }
   
   label:
-
-  Serial.print("UP");
-  Serial.println(op1);
-  Serial.print("DOWN:");
-  Serial.println(op2);
-  Serial.println("count");
-  Serial.println(count);
-  
-    
-    iot_send++;
+  show();
+   
+  iot_send++;
 
 //SENDS DATA EVERY 400*DELAY SECONDS.
     
@@ -205,4 +201,3 @@ void loop() {
 }
 
 //###----------------END----------------###
-
